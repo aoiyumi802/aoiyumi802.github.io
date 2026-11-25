@@ -197,12 +197,18 @@
   }
   .letter p { margin: 0; }
   .letter .sign { font-weight: 600; font-size: 21px; color: var(--teal-text); }
-  .duo { max-width: 780px; margin: 36px auto 0; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 16px; }
-  .duo img { width: 100%; max-width: 520px; }
-  .duo img { width: 100%; max-width: 470px; }
+  /* チラシと同じく、滝田さんの手書きの吹き出しを写真の左上に置き、しっぽで滝田さんを指す */
+  /* 2人の写真の真下に、滝田さんの手書きのメッセージ（吹き出しなし） */
+  /* 写真はページの真ん中。左右に同じ幅の列を置き、青井のひとことは右の列に */
+  .duo { max-width: 1100px; margin: 36px auto 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 470px) minmax(0, 1fr); align-items: center; gap: 16px 32px; }
+  .pair { grid-column: 2; margin: 0; width: 100%; display: grid; justify-items: center; gap: 4px; }
+  .duo .bubble { grid-column: 3; justify-self: start; }
+  .pair .photo { width: 100%; }
+  /* 手書きの文字は右上がりに約2.4度傾いているので、右回りに3度回して水平に近づける */
+  .pair .sign-takita { width: 66%; transform: rotate(3deg); }
   .bubble {
-    font-family: var(--hand); font-weight: 600; font-size: 20px; line-height: 1.6;
-    border: 2px solid var(--fg); border-radius: 50%; padding: 26px 30px; text-align: center; margin-bottom: 120px;
+    font-family: var(--hand); font-weight: 600; font-size: 26px; line-height: 1.6;
+    text-align: center; margin: 0 0 90px;
   }
 
   .cta { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 48px; }
@@ -236,7 +242,11 @@
     .policy p { grid-column: 1 / -1; }
     .letter { font-size: 17px; }
     .duo { grid-template-columns: 1fr; justify-items: center; }
-    .bubble { margin-bottom: 0; order: -1; border-radius: 40px; }
+    /* スマホ：青井の吹き出し → 2人の写真 → 滝田さんの手書きのメッセージ */
+    .pair, .duo .bubble { grid-column: auto; justify-self: center; }
+    .pair .sign-takita { width: 72%; }
+    /* スマホでは、これまでどおり枠で囲む */
+    .bubble { margin-bottom: 0; order: -1; font-size: 20px; border: 2px solid var(--fg); border-radius: 40px; padding: 26px 30px; }
     .topbar .btn.ig { display: none; }
   }
 </style>
@@ -411,7 +421,10 @@
         <p class="sign">そんな想いを胸に、市政に取り組む決意をしました。</p>
       </div>
       <div class="duo">
-        <img src="img/duo.png" width="600" height="400" alt="滝田やすひこ都議会議員と青井ゆみ" loading="lazy">
+        <figure class="pair">
+          <img class="photo" src="img/duo.png" width="600" height="400" alt="滝田やすひこ都議会議員と青井ゆみ" loading="lazy">
+          <img class="sign-takita" src="img/takita-message.png" width="642" height="284" alt="滝田やすひこ都議会議員の手書きのメッセージ「私も応援しています!! 東京都議会議員 滝田やすひこ」" loading="lazy">
+        </figure>
         <p class="bubble">応援よろしく<br>お願いいたします!!</p>
       </div>
       <div class="cta">
