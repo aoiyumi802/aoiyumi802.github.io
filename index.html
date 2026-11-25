@@ -92,9 +92,13 @@
     align-items: end;
     padding-block: 28px 0;
   }
-  /* 顔写真の画像は左右と上に余白が多いので、枠より大きく置いて人物を大きく見せる（下は名前の帯に隠れる） */
+  /* 顔写真は余白が多いので、枠より大きく置いて顔のアップにする（肩から下は名前の帯に隠れる）。
+     元の写真は顔が向かって右に約5度傾いているので、顔の中心を軸に反対へ5度回して水平にする */
   .hero-photo { position: relative; max-width: 450px; justify-self: end; width: 100%; aspect-ratio: 5 / 6; overflow: hidden; }
-  .hero-photo img { position: absolute; top: 4%; left: -24%; width: 150%; max-width: none; }
+  .hero-photo img {
+    position: absolute; top: -13%; left: -42%; width: 200%; max-width: none;
+    transform: rotate(-5deg); transform-origin: 47% 34%;
+  }
   .catch {
     position: absolute; top: 5%; left: 3%; z-index: 1; margin: 0;
     writing-mode: vertical-rl;
