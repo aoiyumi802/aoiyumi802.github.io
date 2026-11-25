@@ -144,6 +144,7 @@
     letter-spacing: .04em; text-wrap: balance;
   }
   .sec-title small { display: inline-block; font-size: .45em; font-weight: 500; color: var(--teal-text); margin-left: .6em; letter-spacing: .06em; }
+  .nowrap { white-space: nowrap; }
   .sec-lead { margin: 0; font-size: 17px; max-width: 40em; }
 
   /* ---- 2. 歩んできた道 ---- */
@@ -237,6 +238,8 @@
     .step::before { right: 0 !important; }
     .snap img { max-width: 360px; }
     .sec { padding-block: 56px; }
+    /* スマホでは見出しの下に小見出しを置く（見出しの最後の字だけが次の行に落ちないように） */
+    .sec-title small { display: block; margin: 8px 0 0; }
     .policy { grid-template-columns: 44px 1fr; padding: 22px 18px; gap: 6px 14px; }
     .num { width: 44px; height: 44px; font-size: 22px; }
     .policy p { grid-column: 1 / -1; }
@@ -311,7 +314,7 @@
   <section class="sec" id="road" aria-labelledby="road-title">
     <div class="wrap">
       <div class="sec-head">
-        <h2 class="sec-title" id="road-title">これまで歩んできた道<small>現場での経験が、今の私の原点です</small></h2>
+        <h2 class="sec-title" id="road-title"><span class="nowrap">これまで歩んできた道</span><small>現場での経験が、今の私の原点です</small></h2>
         <p class="sec-lead">一つひとつの出会いが、私の視点をつくってきました。<br>「声をつなぎ、カタチにする力」をこれからも大切にしていきます。</p>
       </div>
       <ol class="road">
