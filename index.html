@@ -77,38 +77,32 @@
   .btn:focus-visible, .brand:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
 
   /* ---- 1. 写真と名前 ---- */
-  .hero { position: relative; }
+  /* チラシの表紙に合わせ、木漏れ日を画面いっぱいに敷き、右側は白くかすませて経歴を読みやすくする。名前の帯は写真の下に重ねる */
+  .hero { position: relative; isolation: isolate; }
+  .hero::before {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background:
+      linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 36%, rgba(255,255,255,.78) 60%, rgba(255,255,255,.92) 100%),
+      url("img/forest.jpg") left top / cover no-repeat;
+  }
   .hero-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
     gap: 40px;
-    align-items: center;
-    padding-block: 12px 0;
+    align-items: end;
+    padding-block: 28px 0;
   }
-  .hero-photo {
-    position: relative; max-width: 500px; justify-self: end; width: 100%;
-    /* 木漏れ日の背景は人物の形の白い抜けより上の部分だけを切り出して広げ、写真の後ろに敷く */
-    aspect-ratio: 5 / 6;
-    border-radius: 28px 28px 0 0; overflow: hidden; isolation: isolate;
-  }
-  .hero-photo::before {
-    content: ""; position: absolute; inset: -12px; z-index: -1;
-    background: url("img/forest.jpg") 0% top / cover no-repeat;
-    filter: blur(1px);
-  }
-  .hero-photo img {
-    position: absolute; top: 4%; left: -24%;
-    width: 150%; max-width: none;
-    aspect-ratio: 1100 / 980;
-  }
+  /* 顔写真の画像は左右と上に余白が多いので、枠より大きく置いて人物を大きく見せる（下は名前の帯に隠れる） */
+  .hero-photo { position: relative; max-width: 450px; justify-self: end; width: 100%; aspect-ratio: 5 / 6; overflow: hidden; }
+  .hero-photo img { position: absolute; top: 4%; left: -24%; width: 150%; max-width: none; }
   .catch {
-    position: absolute; top: 9%; left: 6%; z-index: 1; margin: 0;
+    position: absolute; top: 5%; left: 3%; z-index: 1; margin: 0;
     writing-mode: vertical-rl;
-    font-family: var(--display); font-weight: 700; font-size: clamp(20px, 2.6vw, 28px);
-    line-height: 1.4; letter-spacing: .16em; color: #FFFFFF;
+    font-family: var(--display); font-weight: 700; font-size: clamp(17px, 2.2vw, 25px);
+    line-height: 1.4; letter-spacing: .16em; color: #FFFFFF; white-space: nowrap;
     text-shadow: 0 1px 6px rgba(40, 60, 30, .45);
   }
-  .career { list-style: none; margin: 0; padding: 0; display: grid; max-width: 440px; }
+  .career { list-style: none; margin: 0 0 19vw; padding: 0; display: grid; max-width: 440px; align-self: center; }
   .career li {
     display: grid; grid-template-columns: 40px 1fr; gap: 14px; align-items: center;
     padding-block: 12px; border-bottom: 1px solid var(--teal-line);
@@ -118,13 +112,14 @@
   .dot { width: 40px; height: 40px; border-radius: 50%; background: var(--teal); display: grid; place-items: center; }
   .dot svg { width: 20px; height: 20px; fill: none; stroke: var(--on-teal); stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
 
-  .band { position: relative; margin-top: -60px; }
-  .wave { display: block; width: 100%; height: 90px; }
+  /* 波はチラシ表紙の形をそのまま写したもの（青緑の帯と黄色の線）。幅に合わせて高さも伸び縮みさせ、カーブの形を保つ */
+  .band { position: relative; z-index: 1; margin-top: -20.2vw; }
+  .wave { display: block; width: 100%; height: 20.2vw; }
   .wave .y { fill: var(--yellow); }
   .wave .t { fill: var(--teal); }
   .band-body {
     background: var(--teal); color: var(--on-teal); text-align: center;
-    padding-block: 0 44px; margin-top: -1px;
+    padding-block: 0 44px; margin-top: -2px;
     display: grid; justify-items: center; gap: 6px;
   }
   .tagline { font-family: var(--name); font-weight: 500; font-size: 20px; letter-spacing: .2em; padding-left: .2em; }
@@ -221,11 +216,13 @@
     .step:nth-child(2n)::before { right: 0; }
   }
   @media (max-width: 680px) {
-    .hero-grid { grid-template-columns: 1fr; gap: 24px; }
-    .hero-photo { justify-self: center; }
-    .career { order: 2; max-width: none; }
-    .band { margin-top: 0; }
-    .hero-grid { padding-bottom: 8px; }
+    /* スマホ：写真 → 名前の帯 → 経歴 の順。木漏れ日は写真の後ろだけ */
+    .hero { display: flex; flex-direction: column; }
+    .hero::before { bottom: auto; height: min(130vw, 600px); background: url("img/forest.jpg") left top / cover no-repeat; }
+    .hero-grid { display: contents; }
+    .hero-photo { order: 1; justify-self: auto; margin: 16px auto 0; max-width: 460px; }
+    .band { order: 2; }
+    .career { order: 3; max-width: none; margin: 0; padding: 20px max(16px, env(safe-area-inset-left, 0px)) 8px; }
     .road { grid-template-columns: 1fr; gap: 36px; }
     .step::before { right: 0 !important; }
     .snap img { max-width: 360px; }
@@ -237,9 +234,6 @@
     .duo { grid-template-columns: 1fr; justify-items: center; }
     .bubble { margin-bottom: 0; order: -1; border-radius: 40px; }
     .topbar .btn.ig { display: none; }
-  }
-  @media (max-width: 680px) {
-    .hero-grid > .career { order: 2; }
   }
 </style>
 </head>
@@ -286,9 +280,9 @@
       </ul>
     </div>
     <div class="band">
-      <svg class="wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
-        <path class="y" d="M0 70 C 420 70, 900 0, 1440 6 L1440 90 L0 90 Z"/>
-        <path class="t" d="M0 82 C 420 86, 900 22, 1440 30 L1440 90 L0 90 Z"/>
+      <svg class="wave" viewBox="0 0 1140 230" preserveAspectRatio="none" aria-hidden="true">
+        <path class="y" d="M0 222 L300 215 C640 140, 700 -10, 1140 13 L1140 230 L0 230 Z"/>
+        <path class="t" d="M0 195 C17 197, 70 203, 100 205 C130 207, 153 208, 180 209 C207 210, 233 209, 260 208 C287 207, 313 206, 340 202 C367 198, 393 188, 420 181 C447 174, 473 167, 500 158 C527 149, 553 138, 580 129 C607 120, 633 109, 660 101 C687 93, 713 86, 740 81 C767 76, 793 71, 820 68 C847 65, 873 62, 900 61 C927 60, 953 60, 980 60 C1007 60, 1033 60, 1060 63 C1087 66, 1127 74, 1140 76 L1140 230 L0 230 Z"/>
       </svg>
       <div class="band-body">
         <span class="tagline">新時代の八王子</span>
